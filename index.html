@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Unit 3 – Hidden Army Vocabulary Practice</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    body{
+      font-family:"Century Gothic","Trebuchet MS",Arial,sans-serif;
+      background:#f5f7ff;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      min-height:100vh;
+      margin:0;
+    }
+    .container{
+      background:#fff;
+      max-width:860px;
+      width:95%;
+      padding:22px 24px 28px;
+      border-radius:16px;
+      box-shadow:0 4px 14px rgba(0,0,0,.12);
+    }
+
+    .header{
+      display:flex;
+      align-items:center;
+      gap:14px;
+      margin-bottom:14px;
+    }
+    .logo{
+      width:56px;
+      height:56px;
+      border-radius:12px;
+      object-fit:cover;
+      background:#eef1ff;
+    }
+    h1{
+      margin:0;
+      color:#333366;
+      font-size:22px;
+      line-height:1.25;
+      text-align:left;
+    }
+    .sub{
+      margin:6px 0 0;
+      color:#5b5b78;
+      font-size:14px;
+      text-align:left;
+    }
+
+    #question-number{
+      font-weight:bold;
+      margin:10px 0 6px;
+      color:#555;
+    }
+
+    #question-text{
+      font-size:1.06rem;
+      margin-bottom:16px;
+      white-space:normal;
+      color:#111827;
+    }
+
+    .options{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:10px;
+      margin-bottom:12px;
+    }
+
+    button.option{
+      padding:12px 14px;
+      border-radius:12px;
+      border:1px solid #ccd;
+      background:#eef1ff;
+      cursor:pointer;
+      text-align:left;
+      font-size:1rem;
+      transition:transform .1s, box-shadow .1s, background .1s;
+    }
+    button.option:hover{
+      box-shadow:0 2px 6px rgba(0,0,0,.15);
+      transform:translateY(-1px);
+    }
+    button.option:disabled{
+      cursor:default;
+      opacity:.72;
+      box-shadow:none;
+      transform:none;
+    }
+
+    #feedback{
+      min-height:34px;
+      font-size:1rem;
+      margin-bottom:10px;
+      line-height:1.35;
+    }
+    #feedback.correct{ color:#177b2f; }
+    #feedback.incorrect{ color:#b22222; }
+
+    .controls{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      margin-top:6px;
+    }
+    #next-btn,#restart-btn{
+      padding:10px 16px;
+      border-radius:999px;
+      border:none;
+      color:#fff;
+      font-size:.98rem;
+      cursor:pointer;
+    }
+    #next-btn{
+      background:#4b63ff;
+      display:none;
+    }
+    #next-btn:hover{ background:#384ed9; }
+    #restart-btn{
+      background:#111827;
+    }
+    #restart-btn:hover{ background:#0b1220; }
+
+    #score{
+      margin-top:14px;
+      font-size:.95rem;
+      color:#444;
+      text-align:right;
+    }
+
+    ul{
+      margin:10px 0 0;
+      padding-left:20px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <div class="header">
+      <!-- Put your logo file in the SAME folder as this HTML and name it: ga_logo.png -->
+      <img class="logo" src="ga_logo.png" alt="Giraffe Academy logo" />
+      <div>
+        <h1>Unit 3 – Hidden Army Vocabulary Practice</h1>
+        <div class="sub">Meaning first, then Usage · Review Mode included</div>
+      </div>
+    </div>
+
+    <div id="question-number"></div>
+    <div id="question-text"></div>
+    <div class="options" id="options-container"></div>
+    <div id="feedback"></div>
+
+    <div class="controls">
+      <button id="next-btn">Next</button>
+      <button id="restart-btn">Restart</button>
+    </div>
+
+    <div id="score"></div>
+  </div>
+
+  <script>
+    const questions = [
+      // =========================
+      // PART A: MEANING / DESCRIPTION
+      // =========================
+      {
+        section: "Meaning",
+        word: "archaeologist",
+        question: "Which word means:\nA person who studies the past by digging up and examining old objects?",
+        options: ["archaeologist", "emperor", "peasant", "general"],
+        answer: 0
+      },
+      {
+        section: "Meaning",
+        word: "armor",
+        question: "Which word means:\nProtective clothing soldiers wore to keep their bodies safe in battle?",
+        options: ["armor", "uniform", "jade", "coffin"],
+        answer: 0
+      },
+      {
+        section: "Meaning",
+        word: "army",
+        question: "Which word means:\nA large group of soldiers who fight for a country?",
+        options: ["army", "battle", "treasure", "tomb"],
+        answer: 0
+      },
+      {
+        section: "Meaning",
+        word: "battle",
+        question: "Which word means:\nA fight between armies in a war?",
+        options: ["battle", "armor", "uniform", "jade"],
+        answer: 0
+      },
+      {
+        section: "Meaning",
+        word: "clay",
+        question: "Which word means:\nA soft natural material that can be shaped and baked to become hard?",
+        options: ["clay", "jade", "varnish", "treasure"],
+        answer: 0
+      },
+      {
+        section: "Meaning",
+        word: "coffin",
+        question: "Which word means:\nA box that a dead person’s body is placed into?",
+        options: ["coffin", "tomb", "armor", "uniform"],
+        answer: 0
+      },
+      {
+        section: "Meaning",
+        word: "emperor",
+        question: "Which word means:\nThe ruler of an empire?",
+        options: ["emperor", "general", "peasant", "soldier"],
+        answer: 0
+      },
+      {
+        section: "Meaning",
+        word: "generals",
+        question: "Which word means:\nImportant leaders in an army who plan and give orders?",
+        options: ["generals", "soldiers", "peasants", "archaeologists"],
+        answer: 0
+      },
+      {
+        section: "Meaning",
+        word: "jade",
+        question: "Which word means:\nA valuable green stone used to make jewelry or special objects?",
+        options: ["jade", "clay", "armor", "varnish"],
+        answer: 0
+      },
+      {
+        section: "Meaning",
+        word: "peasant",
+        question: "Which word means:\nA poor farmer or countryside worker long ago?",
+        options: ["peasant", "emperor", "general", "archaeologist"],
+        answer: 0
+      },
+      {
+        section: "Meaning",
+        word: "soldiers",
+        question: "Which word means:\nPeople trained to fight and protect their country?",
+        options: ["soldiers", "peasants", "generals", "treasures"],
+        answer: 0
+      },
+      {
+        section: "Meaning",
+        word: "tomb",
+        question: "Which word means:\nA place where someone is buried, often underground?",
+        options: ["tomb", "coffin", "armor", "uniform"],
+        answer: 0
+      },
+      {
+        section: "Meaning",
+        word: "treasure",
+        question: "Which word means:\nVery valuable objects like gold or jewels?",
+        options: ["treasure", "jade", "army", "battle"],
+        answer: 0
+      },
+      {
+        section: "Meaning",
+        word: "uniform",
+        question: "Which word means:\nSpecial clothing worn by members of a group, such as soldiers?",
+        options: ["uniform", "armor", "varnish", "jade"],
+        answer: 0
+      },
+      {
+        section: "Meaning",
+        word: "varnish",
+        question: "Which word means:\nA clear liquid coating that protects something and makes it shiny?",
+        options: ["varnish", "clay", "jade", "armor"],
+        answer: 0
+      },
+
+      // =========================
+      // PART B: USAGE / SENTENCES
+      // =========================
+      {
+        section: "Usage",
+        word: "armor",
+        question: "Choose the best word:\nThe soldiers wore __________ to protect their bodies in battle.",
+        options: ["armor", "uniform", "coffin", "jade"],
+        answer: 0
+      },
+      {
+        section: "Usage",
+        word: "tomb",
+        question: "Choose the best word:\nThe emperor’s __________ was sealed and never opened.",
+        options: ["tomb", "armor", "battle", "uniform"],
+        answer: 0
+      },
+      {
+        section: "Usage",
+        word: "treasure",
+        question: "Choose the best word:\nGold and jewels were kept as __________.",
+        options: ["treasure", "clay", "army", "soldiers"],
+        answer: 0
+      },
+      {
+        section: "Usage",
+        word: "generals",
+        question: "Choose the best word:\nThe __________ planned the battle and gave orders to the soldiers.",
+        options: ["generals", "peasants", "coffins", "varnish"],
+        answer: 0
+      },
+      {
+        section: "Usage",
+        word: "jade",
+        question: "Choose the best word:\nThe necklace was made of green __________.",
+        options: ["jade", "armor", "clay", "uniform"],
+        answer: 0
+      }
+    ];
+
+    // Force: Meaning first, then Usage (NO shuffle)
+    const meaningOrder = questions
+      .map((q, i) => ({ q, i }))
+      .filter(x => x.q.section === "Meaning")
+      .map(x => x.i);
+
+    const usageOrder = questions
+      .map((q, i) => ({ q, i }))
+      .filter(x => x.q.section === "Usage")
+      .map(x => x.i);
+
+    let order = [...meaningOrder, ...usageOrder];
+
+    let current = 0;
+    let score = 0;
+    let incorrectQuestions = [];
+    let isReview = false;
+    let reviewIndex = 0;
+    let currentQuestionIndex = order[current];
+
+    const qNumberEl = document.getElementById("question-number");
+    const qTextEl = document.getElementById("question-text");
+    const optionsContainer = document.getElementById("options-container");
+    const feedbackEl = document.getElementById("feedback");
+    const nextBtn = document.getElementById("next-btn");
+    const restartBtn = document.getElementById("restart-btn");
+    const scoreEl = document.getElementById("score");
+
+    function showQuestion() {
+      currentQuestionIndex = isReview ? incorrectQuestions[reviewIndex] : order[current];
+      const q = questions[currentQuestionIndex];
+
+      qNumberEl.textContent = isReview
+        ? `Review ${reviewIndex + 1} of ${incorrectQuestions.length}`
+        : `Question ${current + 1} of ${questions.length}`;
+
+      const formatted = q.question.split("\n").join("<br>");
+      qTextEl.innerHTML =
+        `<div style="font-weight:bold;color:#333366;margin-bottom:8px;">Part: ${q.section}</div>` +
+        formatted;
+
+      feedbackEl.textContent = "";
+      feedbackEl.className = "";
+      nextBtn.style.display = "none";
+
+      optionsContainer.innerHTML = "";
+      q.options.forEach((opt, index) => {
+        const btn = document.createElement("button");
+        btn.className = "option";
+        btn.textContent = opt;
+        btn.onclick = () => handleAnswer(index);
+        optionsContainer.appendChild(btn);
+      });
+
+      scoreEl.textContent = `Score: ${score} / ${questions.length}`;
+    }
+
+    function handleAnswer(selectedIndex) {
+      const q = questions[currentQuestionIndex];
+      const buttons = document.querySelectorAll("button.option");
+      buttons.forEach(b => (b.disabled = true));
+
+      if (selectedIndex === q.answer) {
+        if (!isReview) score++;
+        feedbackEl.textContent = "Correct.";
+        feedbackEl.className = "correct";
+      } else {
+        feedbackEl.innerHTML = `Incorrect. Correct answer: <strong>${q.options[q.answer]}</strong>`;
+        feedbackEl.className = "incorrect";
+
+        if (!isReview && !incorrectQuestions.includes(currentQuestionIndex)) {
+          incorrectQuestions.push(currentQuestionIndex);
+        }
+      }
+
+      scoreEl.textContent = `Score: ${score} / ${questions.length}`;
+      nextBtn.style.display = "inline-block";
+    }
+
+    nextBtn.addEventListener("click", () => {
+      if (!isReview) {
+        current++;
+        if (current < questions.length) {
+          showQuestion();
+        } else {
+          if (incorrectQuestions.length > 0) {
+            isReview = true;
+            reviewIndex = 0;
+            showQuestion();
+          } else {
+            endQuizFinal();
+          }
+        }
+      } else {
+        reviewIndex++;
+        if (reviewIndex < incorrectQuestions.length) {
+          showQuestion();
+        } else {
+          endQuizFinal();
+        }
+      }
+    });
+
+    function endQuizFinal() {
+      qNumberEl.textContent = "Finished";
+      qTextEl.textContent = "You have finished the practice.";
+      optionsContainer.innerHTML = "";
+
+      let msg = `Final score: <strong>${score} / ${questions.length}</strong><br>`;
+      const wrongWords = [...new Set(incorrectQuestions.map(i => questions[i].word))];
+
+      if (wrongWords.length > 0) {
+        msg += `<br><strong>Words to review:</strong><ul>${wrongWords.map(w => `<li>${w}</li>`).join("")}</ul>`;
+      } else {
+        msg += "<br><strong>Excellent.</strong> You got everything correct.";
+      }
+
+      feedbackEl.innerHTML = msg;
+      nextBtn.style.display = "none";
+      feedbackEl.className = "";
+    }
+
+    restartBtn.addEventListener("click", () => {
+      current = 0;
+      score = 0;
+      incorrectQuestions = [];
+      isReview = false;
+      reviewIndex = 0;
+      order = [...meaningOrder, ...usageOrder]; // keep Meaning first
+      showQuestion();
+    });
+
+    showQuestion();
+  </script>
+</body>
+</html>
